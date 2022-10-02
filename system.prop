@@ -1,3 +1,5 @@
+ro.adb.secure=0
+
 # Audio
 audio.offload.min.duration.secs=30
 persist.vendor.audio.hac.enable=false
