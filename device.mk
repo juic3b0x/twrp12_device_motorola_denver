@@ -12,7 +12,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
 # Enable virtual A/B OTA
-#$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
+#$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
 
 # Installs gsi keys into ramdisk, to boot a developer GSI with verified boot.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
@@ -90,7 +90,7 @@ TW_NO_SCREEN_BLANK := true
 TW_EXCLUDE_APEX := true
 
 # Crypto
-TW_USE_FSCRYPT_POLICY := 1
+TW_USE_FSCRYPT_POLICY := 2
 TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_CRYPTO_FBE := true
 TW_INCLUDE_FBE_METADATA_DECRYPT := true
@@ -119,8 +119,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so \
     $(LOCAL_PATH)/prebuilt/android.hardware.boot@1.0-impl-1.1-qti.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/hw/android.hardware.boot@1.0-impl-1.1-qti.so \
     $(LOCAL_PATH)/prebuilt/librecovery_updater_msm.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/librecovery_updater_msm.so \
-    $(LOCAL_PATH)/prebuilt/libboot_control_qti.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libboot_control_qti.so \
-    $(LOCAL_PATH)/prebuilt/android.hardware.fastboot@1.0-impl-mock.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/hw/android.hardware.fastboot@1.0-impl-mock.so
+    $(LOCAL_PATH)/prebuilt/libboot_control_qti.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libboot_control_qti.so
 
 PRODUCT_PACKAGES += \
     qcom_decrypt \
