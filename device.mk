@@ -23,21 +23,6 @@ LOCAL_PATH := device/motorola/denver
 PRODUCT_SHIPPING_API_LEVEL := 30
 
 # A/B
-AB_OTA_UPDATER := true
-
-AB_OTA_PARTITIONS := \
-    boot \
-    dtbo \
-    product \
-    system \
-    system_ext \
-    vbmeta \
-    vbmeta_system \
-    vendor \
-    vendor_boot
-
-PRODUCT_USE_DYNAMIC_PARTITIONS := true
-
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
     POSTINSTALL_PATH_system=system/bin/otapreopt_script \
@@ -55,6 +40,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES_DEBUG += \
     bootctl
 
+# Dynamic partitions
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+
 # Fastbootd
 PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.0-impl-mock \
@@ -67,7 +55,8 @@ TARGET_SCREEN_WIDTH := 1080
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
-    hardware/qcom-caf/bootctrl 
+    hardware/qcom-caf/bootctrl \
+    vendor/qcom/opensource/commonsys-intf/display
 
 # Update engine
 PRODUCT_PACKAGES += \
@@ -77,7 +66,6 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES_DEBUG += \
     update_engine_client
-
 
 # TWRP Configuration
 TW_THEME := portrait_hdpi
