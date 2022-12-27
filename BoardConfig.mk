@@ -38,26 +38,22 @@ TARGET_OTA_ASSERT_DEVICE := denver
 # Build Error Bypass Fix
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
-# A/B
-AB_OTA_UPDATER := true
-
-AB_OTA_PARTITIONS := \
-    boot \
-    dtbo \
-    product \
-    system \
-    system_ext \
-    vbmeta \
-    vbmeta_system \
-    vendor \
-    vendor_boot
-
 # Build Flags
 TW_MAINTAINER := ragarcia87
-TW_DEVICE_VERSION := v2
+TW_DEVICE_VERSION := v3
 RECOVERY_VARIANT := twrp-12.1
 ALLOW_MISSING_DEPENDENCIES := true
 LC_ALL := "C"
+
+# File systems
+BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
+BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
+TARGET_USES_MKE2FS := true
+BOARD_SUPPRESS_SECURE_ERASE := true
 
 # Kernel
 BOARD_KERNEL_CMDLINE := twrpfastboot=1
@@ -96,8 +92,28 @@ NEED_KERNEL_MODULE_RECOVERY := true
 # Metadata
 BOARD_USES_METADATA_PARTITION := true
 BOARD_ROOT_EXTRA_FOLDERS += metadata
-
 BOARD_USES_QCOM_FBE_DECRYPTION := true
+
+# Crypto
+TW_USE_FSCRYPT_POLICY := 2
+TW_INCLUDE_CRYPTO := true
+TW_INCLUDE_CRYPTO_FBE := true
+TW_INCLUDE_FBE_METADATA_DECRYPT := true
+PLATFORM_SECURITY_PATCH := 2099-12-31
+VENDOR_SECURITY_PATCH := 2099-12-31
+PLATFORM_VERSION := 127
+PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
+BOARD_USES_QCOM_FBE_DECRYPTION := true
+
+TARGET_RECOVERY_DEVICE_MODULES += \
+    libandroidicu \
+    libion 
+
+RECOVERY_LIBRARY_SOURCE_FILES += \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
+
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/recovery/root/system/lib64/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 131072
@@ -120,10 +136,46 @@ TARGET_BOARD_PLATFORM := holi
 # Properties
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
+TARGET_FSTAB_FILE += $(DEVICE_PATH)/recovery/root/system/etc/recovery.fstab
+
+# TWRP Configuration
+TW_THEME := portrait_hdpi
+TW_EXCLUDE_TWRPAPP := true
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+RECOVERY_SDCARD_ON_DATA := true
+TARGET_RECOVERY_QCOM_RTC_FIX := true
+TW_EXCLUDE_DEFAULT_USB_INIT := true
+TW_EXTRA_LANGUAGES := true
+TW_INCLUDE_NTFS_3G := true
+TW_USE_TOOLBOX := true
+TW_INCLUDE_RESETPROP := true
+TW_INCLUDE_REPACKTOOLS := true
+TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.0/lun.%d/file
+TW_CUSTOM_CPU_TEMP_PATH := "/sys/devices/virtual/thermal/thermal_zone79/temp"
+TW_Y_OFFSET := 120
+TW_H_OFFSET := -120
+TW_INPUT_BLACKLIST := "hbtp_vm"
+TW_EXCLUDE_APEX := true
+TW_NEW_ION_HEAP := true
+TW_SCREEN_BLANK_ON_BOOT := true
+TW_BACKUP_EXCLUSIONS := /data/fonts
+
+# TWRP Debug Flags
+TARGET_USES_LOGD := true
+TWRP_EVENT_LOGGING := false
+TWRP_INCLUDE_LOGCAT := true
+TARGET_RECOVERY_DEVICE_MODULES += debuggerd
+TW_RECOVERY_ADDITIONAL_RELINK_FILES += $(TARGET_OUT_EXECUTABLES)/debuggerd
+
+# TWRP Installer
+RECOVERY_INSTALLER_PATH := bootable/recovery/installer
+USE_RECOVERY_INSTALLER := true
+
+TW_LOAD_VENDOR_MODULES := "moto_f_usbnet.ko nova_0flash_mmi.ko mmi-smbcharger-iio.ko qpnp_adaptive_charge.ko utags.ko"
 
 # Recovery
 BOARD_USES_RECOVERY_AS_BOOT := true
-TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
