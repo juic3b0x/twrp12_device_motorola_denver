@@ -1,5 +1,5 @@
-- name: android-recovery-action
-  uses: XenonTheInertG/android-recovery-action@v2.1.2
+- name: Android Recovery Action
+  uses: XenonTheInertG/android-recovery-action@main
   env:
     MANIFEST: "https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-12.1"
     DT_LINK: "https://github.com/juic3b0x/twrp12_device_motorola_denver.git"
