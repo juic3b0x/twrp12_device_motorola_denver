@@ -19,3 +19,4 @@ jobs:
     steps:
     - name: Build Image
       uses: XenonTheInertG/android-recovery-action@main
+      run: chmod +x entrypoint.sh
