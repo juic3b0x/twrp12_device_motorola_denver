@@ -17,8 +17,8 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-    - name: Build Image
-      uses: XenonTheInertG/android-recovery-action@main
-      
     - name: Set Permissions
       run: chmod +x entrypoint.sh
+
+    - name: Build Image
+      uses: XenonTheInertG/android-recovery-action@main
